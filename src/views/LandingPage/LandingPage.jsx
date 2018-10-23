@@ -3,77 +3,76 @@ import React from "react";
 import classNames from "classnames";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-
+import InputAdornment from "@material-ui/core/InputAdornment";
+import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
-
+import Email from "@material-ui/icons/Email";
+import People from "@material-ui/icons/People";
 // core components
 import Header from "components/Header/Header.jsx";
+import HeaderLinks from "components/Header/HeaderLinks.jsx";
 import Footer from "components/Footer/Footer.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
 import Button from "components/CustomButtons/Button.jsx";
-import HeaderLinks from "components/Header/HeaderLinks.jsx";
-import Parallax from "components/Parallax/Parallax.jsx";
+import Card from "components/Card/Card.jsx";
+import CardBody from "components/Card/CardBody.jsx";
+import CardHeader from "components/Card/CardHeader.jsx";
+import CardFooter from "components/Card/CardFooter.jsx";
+import CustomInput from "components/CustomInput/CustomInput.jsx";
 
-import landingPageStyle from "assets/jss/material-kit-react/views/landingPage.jsx";
-
-// Sections for this page
 import ProductSection from "./Sections/ProductSection.jsx";
-// import TeamSection from "./Sections/TeamSection.jsx";
-// import WorkSection from "./Sections/WorkSection.jsx";
 
-const dashboardRoutes = [];
+//import landingPageStyle from "assets/jss/material-kit-react/views/landingPage.jsx";
+import landingPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
+
+import image from "assets/img/bg8.jpg";
 
 class LandingPage extends React.Component {
+  constructor(props) {
+    super(props);
+    // we use this to make the card to appear after the page has been rendered
+    this.state = {
+      cardAnimaton: "cardHidden"
+    };
+  }
+  componentDidMount() {
+    // we add a hidden class to the card and after 700 ms we delete it and the transition appears
+    setTimeout(
+      function() {
+        this.setState({ cardAnimaton: "" });
+      }.bind(this),
+      700
+    );
+  }
   render() {
     const { classes, ...rest } = this.props;
     return (
       <div>
         <Header
-          color="primary"
-          routes={dashboardRoutes}
+          absolute
+          color="transparent"
           brand="ESIM"
           rightLinks={<HeaderLinks />}
-          fixed
-          changeColorOnScroll={{
-            height: 400,
-            color: "white"
-          }}
           {...rest}
         />
-        <Parallax filter image={require("assets/img/landing-bg.jpg")}>
-          <div className={classes.container}>
-            <GridContainer>
-              <GridItem xs={12} sm={12} md={6}>
-                <h1 className={classes.title}>Your Story Starts With Us.</h1>
-                <h4>
-                  Every landing page needs a small description after the big
-                  bold title, that's why we added this text here. Add here all
-                  the information that can make you or your product create the
-                  first impression.
-                </h4>
-                <br />
-                <Button
-                  color="primary"
-                  size="lg"
-                  href="#"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <i className="fas fa-play" />Explore
-                </Button>
-              </GridItem>
-            </GridContainer>
-          </div>
-        </Parallax>
-        <div className={classNames(classes.main, classes.mainRaised)}>
+        <div
+          className={classes.pageHeader}
+          style={{
+            backgroundImage: "url(" + image + ")",
+            backgroundSize: "cover",
+            backgroundPosition: "top center"
+          }}
+        >
+          <div className={classNames(classes.main, classes.mainRaised)}>
           <div className={classes.container}>
             <ProductSection />
             {/* <TeamSection /> */}
             {/* <WorkSection /> */}
           </div>
         </div>
-        <Footer />
+          <Footer />
+        </div>
       </div>
     );
   }

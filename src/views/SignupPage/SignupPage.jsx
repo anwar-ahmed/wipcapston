@@ -1,4 +1,7 @@
 import React from "react";
+import axios from "axios";
+import { withRouter } from "react-router-dom";
+import { createHashHistory } from 'history';
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -22,9 +25,20 @@ import CardFooter from "components/Card/CardFooter.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 
 
+// @material-ui/icons
+import Check from "@material-ui/icons/Check";
+import Warning from "@material-ui/icons/Warning";
+
+// core components
+import SnackbarContent from "components/Snackbar/SnackbarContent.jsx";
+
+
+
 import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
 
-import image from "assets/img/bg7.jpg";
+import image from "assets/img/bg8.jpg";
+
+var _userUrl = "http://localhost:3000/users/";
 
 class SignupPage extends React.Component {
   constructor(props) {
@@ -32,8 +46,12 @@ class SignupPage extends React.Component {
     // we use this to make the card to appear after the page has been rendered
     this.state = {
       cardAnimaton: "cardHidden",
-      email:''
-
+      emailId:'',
+      password:'',
+      firstName:'',
+      lastName:'',
+      location:'',
+      mobile:''
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -52,10 +70,28 @@ class SignupPage extends React.Component {
       [name]: event.target.value,
     });
   };
-  handleSubmit =() => {
 
-    console.log(this.state.email)
+  handleSubmit =(event) => {
+    event.preventDefault();
+   console.log("i am here");
+    axios.post(_userUrl + "register", {
+      emailId:this.state.emailId,
+      password:this.state.password,
+      firstName:this.state.firstName,
+      lastName:this.state.lastName,
+      location:this.state.location,
+      mobile:this.state.mobile
+    })
+    .then(function (response) {
+      console.log(response);
+      //this.props.history.push('/');
+      createHashHistory.push('/')
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 
+    
   }
   render() {
     const { classes, ...rest } = this.props;
@@ -80,35 +116,39 @@ class SignupPage extends React.Component {
             <GridContainer justify="center">
               <GridItem xs={12} sm={12} md={4}>
                 <Card className={classes[this.state.cardAnimaton]}>
-                  <form className={classes.form}>
+                  <form className={classes.form} onSubmit={this.handleSubmit}>
                     <p className={classes.divider}>SIGN UP</p>
                     <CardBody>
                       <CustomInput
                         labelText="Email..."
-                        id="email"
+                        id="emailId"
                         formControlProps={{
                           fullWidth: true
                         }}
                         inputProps={{
                           type: "email",
-                          value: this.state.email,
-                          onChange: this.handleChange('email'),
+                          value: this.state.emailId,
+                          onChange: this.handleChange('emailId'),
+                          required:"true",
                           endAdornment: (
                             <InputAdornment position="end">
                               <Email className={classes.inputIconsColor} />
                             </InputAdornment>
                           ),
                         }}
-                        required="true"
+                        
                       />
                       <CustomInput
                         labelText="Password"
-                        id="pass"
+                        id="password"
                         formControlProps={{
                           fullWidth: true
                         }}
                         inputProps={{
                           type: "password",
+                          value: this.state.password,
+                          onChange: this.handleChange('password'),
+                          required:"true",
                           endAdornment: (
                             <InputAdornment position="end">
                               <Icon className={classes.inputIconsColor}>
@@ -126,6 +166,9 @@ class SignupPage extends React.Component {
                         }}
                         inputProps={{
                           type: "text",
+                          value: this.state.firstName,
+                          onChange: this.handleChange('firstName'),
+                          required:"true",
                           endAdornment: (
                             <InputAdornment position="end">
                               <People className={classes.inputIconsColor} />
@@ -141,6 +184,9 @@ class SignupPage extends React.Component {
                         }}
                         inputProps={{
                           type: "text",
+                          value: this.state.lastName,
+                          onChange: this.handleChange('lastName'),
+                          required:"true",
                           endAdornment: (
                             <InputAdornment position="end">
                               <People className={classes.inputIconsColor} />
@@ -156,21 +202,27 @@ class SignupPage extends React.Component {
                         }}
                         inputProps={{
                           type: "text",
+                          value: this.state.location,
+                          onChange: this.handleChange('location'),
+                          required:"true",
                           endAdornment: (
                             <InputAdornment position="end">
                               <Location className={classes.inputIconsColor} />
                             </InputAdornment>
                           )
-                        }}
+                        }} 
                       />
                       <CustomInput
                         labelText="Mobile Number..."
-                        id="mobileNumber"
+                        id="mobile"
                         formControlProps={{
                           fullWidth: true
                         }}
                         inputProps={{
                           type: "text",
+                          value: this.state.mobile,
+                          onChange: this.handleChange('mobile'),
+                          required:"true",
                           endAdornment: (
                             <InputAdornment position="end">
                               <Phone className={classes.inputIconsColor} />
@@ -180,14 +232,25 @@ class SignupPage extends React.Component {
                       />
                     </CardBody>
                     <CardFooter className={classes.cardFooter}>
-                      <Button type="button" simple color="primary" size="lg" action={this.handleSubmit}>
+                      <Button type="submit" simple color="primary" size="lg" value="Submit">
                         Submit
                       </Button>
                     </CardFooter>
                   </form>
                 </Card>
+                <SnackbarContent
+          message={
+            <span>
+              <b>SUCCESS ALERT:</b> User successfully registered !
+            </span>
+          }
+          close
+          color="success"
+          icon={Check}
+        />
               </GridItem>
             </GridContainer>
+
           </div>
           <Footer whiteFont />
         </div>
@@ -196,4 +259,5 @@ class SignupPage extends React.Component {
   }
 }
 
-export default withStyles(loginPageStyle)(SignupPage);
+export default withRouter(withStyles(loginPageStyle)(SignupPage));
+
