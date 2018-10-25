@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom"
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 
@@ -18,7 +19,7 @@ class ProductSection extends React.Component {
     const { classes } = this.props;
     return (
       <div className={classes.section}>
-        <GridContainer justify="center">
+        {/* <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={8}>
             <h2 className={classes.title}>Let's talk product</h2>
             <h5 className={classes.description}>
@@ -29,28 +30,32 @@ class ProductSection extends React.Component {
               the user to see more.
             </h5>
           </GridItem>
-        </GridContainer>
+        </GridContainer> */}
         <div>
-          <GridContainer>
+          <GridContainer justify="center">
             <GridItem xs={12} sm={12} md={4}>
+            <Link to={"/login-page"} style={{ textDecoration: 'none'}} >
               <InfoArea
-                title="SOS Security"
+                title="SOS Services"
                 description="Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough."
                 icon={Security}
                 iconColor="info"
                 vertical
               />
+            </Link>
             </GridItem>
             <GridItem xs={12} sm={12} md={4}>
+            <Link to={"/incidentregistration-page"} style={{ textDecoration: 'none'}} >
               <InfoArea
-                title="SOS Fire Incident"
+                title="Register Non SOS Incident"
                 description="Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough."
                 icon={VerifiedUser}
                 iconColor="success"
                 vertical
               />
+            </Link>
             </GridItem>
-            <GridItem xs={12} sm={12} md={4}>
+            {/* <GridItem xs={12} sm={12} md={4}>
               <InfoArea
                 title="Log Incident"
                 description="Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough."
@@ -58,7 +63,7 @@ class ProductSection extends React.Component {
                 iconColor="danger"
                 vertical
               />
-            </GridItem>
+            </GridItem> */}
           </GridContainer>
         </div>
       </div>
