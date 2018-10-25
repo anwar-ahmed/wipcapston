@@ -61,13 +61,13 @@ class LoginPage extends React.Component {
     event.preventDefault();
    console.log("i am here");
     axios.post(_userUrl + "login", {
-      emailId:this.state.emailId,
+      username:this.state.emailId,
       password:this.state.password
     })
     .then(function (response) {
       console.log(response);
       //this.props.history.push('/');
-      createHashHistory.push('/')
+      // createHashHistory.push('/')
     })
     .catch(function (error) {
       console.log(error);

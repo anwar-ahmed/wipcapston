@@ -74,8 +74,8 @@ class SignupPage extends React.Component {
   handleSubmit =(event) => {
     event.preventDefault();
    console.log("i am here");
-    axios.post(_userUrl + "register", {
-      emailId:this.state.emailId,
+    axios.post(_userUrl + "signup", {
+      username:this.state.emailId,
       password:this.state.password,
       firstName:this.state.firstName,
       lastName:this.state.lastName,
