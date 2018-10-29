@@ -1,102 +1,233 @@
 import React from "react";
-// nodejs library that concatenates classes
-import classNames from "classnames";
+import axios from "axios";
 // @material-ui/core components
+import Paper from '@material-ui/core/Paper';
+import TextField from '@material-ui/core/TextField';
 import withStyles from "@material-ui/core/styles/withStyles";
+
+
+
 // @material-ui/icons
-import Camera from "@material-ui/icons/Camera";
-import Palette from "@material-ui/icons/Palette";
-import Favorite from "@material-ui/icons/Favorite";
+
 // core components
 import Header from "components/Header/Header.jsx";
+import HeaderLinks from "components/Header/HeaderLinks.jsx";
 import Footer from "components/Footer/Footer.jsx";
-import Button from "components/CustomButtons/Button.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
-import HeaderLinks from "components/Header/HeaderLinks.jsx";
-// import NavPills from "components/NavPills/NavPills.jsx";
-import Parallax from "components/Parallax/Parallax.jsx";
+import Button from "components/CustomButtons/Button.jsx";
+import Card from "components/Card/Card.jsx";
+import CardBody from "components/Card/CardBody.jsx";
+import CardHeader from "components/Card/CardHeader.jsx";
+import CardFooter from "components/Card/CardFooter.jsx"
 
-import profile from "assets/img/faces/christian.jpg";
+import CustomInput from "components/CustomInput/CustomInput.jsx";
 
-import studio1 from "assets/img/examples/studio-1.jpg";
-import studio2 from "assets/img/examples/studio-2.jpg";
-import studio3 from "assets/img/examples/studio-3.jpg";
-import studio4 from "assets/img/examples/studio-4.jpg";
-import studio5 from "assets/img/examples/studio-5.jpg";
-import work1 from "assets/img/examples/olu-eletu.jpg";
-import work2 from "assets/img/examples/clem-onojeghuo.jpg";
-import work3 from "assets/img/examples/cynthia-del-rio.jpg";
-import work4 from "assets/img/examples/mariya-georgieva.jpg";
-import work5 from "assets/img/examples/clem-onojegaw.jpg";
+// import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
+import incidentRegistrationPageStyle from "assets/jss/material-kit-react/views/incidentRegistrationPageStyle.jsx";
 
-import profilePageStyle from "assets/jss/material-kit-react/views/profilePage.jsx";
+import image from "assets/img/bg8.jpg";
 
-class ProfilePage extends React.Component {
+var _userUrl = "http://localhost:3000/users/";
+
+class IncidentRegistrationPage extends React.Component {
+  constructor(props) {
+    super(props);
+    // we use this to make the card to appear after the page has been rendered
+    this.state = {
+      cardAnimaton: "cardHidden",
+      emailId:'',
+      password:''
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  componentDidMount() {
+    // we add a hidden class to the card and after 700 ms we delete it and the transition appears
+    setTimeout(
+      function() {
+        this.setState({ cardAnimaton: "" });
+      }.bind(this),
+      700
+    );
+  }
+
+  handleChange = name => event => {
+    this.setState({
+      [name]: event.target.value,
+    });
+  };
+
+  handleSubmit =(event) => {
+    event.preventDefault();
+   console.log("i am here");
+    axios.post(_userUrl + "login", {
+      username:this.state.emailId,
+      password:this.state.password
+    })
+    .then(function (response) {
+      console.log(response);
+      //this.props.history.push('/');
+      // createHashHistory.push('/')
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+    
+  }
   render() {
     const { classes, ...rest } = this.props;
-    const imageClasses = classNames(
-      classes.imgRaised,
-      classes.imgRoundedCircle,
-      classes.imgFluid
-    );
-    const navImageClasses = classNames(classes.imgRounded, classes.imgGallery);
     return (
       <div>
         <Header
+          absolute
           color="transparent"
           brand="ESIM"
           rightLinks={<HeaderLinks />}
-          fixed
-          changeColorOnScroll={{
-            height: 200,
-            color: "white"
-          }}
           {...rest}
         />
-        <Parallax small filter image={require("assets/img/bg8.jpg")} />
-        <div className={classNames(classes.main, classes.mainRaised)}>
-          <div>
-            <div className={classes.container}>
+        <div
+          className={classes.pageHeader}
+          style={{
+            backgroundImage: "url(" + image + ")",
+            backgroundSize: "cover",
+            backgroundPosition: "top center"
+          }}
+        >
+          <div className={classes.container}>
+              <Paper className={classes.root} elevation={1}>
               <GridContainer justify="center">
-                <GridItem xs={12} sm={12} md={6}>
-                  <div className={classes.profile}>
-                    <div className={classes.name}>
-                      <h3 className={classes.title}>Christian Louboutin</h3>
-                      <h6>DESIGNER</h6>
-                      <Button justIcon link className={classes.margin5}>
-                        <i className={"fab fa-twitter"} />
+              <GridItem xs={12} sm={4} md={4} lg={3}>
+              <Card className={classes[this.state.cardAnimaton]}>
+                  <form className={classes.form} onSubmit={this.handleSubmit}>
+                  <CardHeader>
+                    <p className={classes.divider}> Complaint Form
+Please send us details about the incident you would like to report. Our Complaint Center will analyze your complaint and take the appropriate measures in order that the reported situation will not occur at any other time in the future. </p>
+                  </CardHeader>
+                    <CardBody>
+                    <TextField InputLabelProps={{ shrink: true }}
+          id="outlined-email-input"
+          label="Email"
+          className={classes.textField}
+          type="date"
+          name="email"
+          autoComplete="email"
+          margin="normal"
+          variant="outlined"
+        />
+                                          <CustomInput
+                        labelText="Incident Type..."
+                        id="incidenttype"
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          type: "text",
+                          value: this.state.emailId,
+                          onChange: this.handleChange('incidenttype'),
+                          required:"true",
+                        }}
+                        
+                      />
+                              <TextField
+          id="outlined-multiline-static"
+          label="Multiline"
+          multiline
+          rows="4"
+          defaultValue="Default Value"
+          className={classes.textField}
+          margin="normal"
+          variant="outlined"
+        />
+                                          <CustomInput
+                        labelText="Incident Detail..."
+                        id="incidentdetail"
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          type: "text",
+                          value: this.state.emailId,
+                          onChange: this.handleChange('incidentdetail'),
+                          required:"true",
+                        }}
+                        
+                      />
+
+                                                                <CustomInput
+                        labelText="Incident Location..."
+                        id="incidentdetail"
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          type: "text",
+                          value: this.state.emailId,
+                          onChange: this.handleChange('incidentdetail'),
+                          required:"true",
+                        }}
+                        
+                      />
+                      
+                      <CustomInput
+                        labelText="Name..."
+                        id="name"
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          type: "text",
+                          value: this.state.emailId,
+                          onChange: this.handleChange('name'),
+                          required:"true",
+                        }}
+                        
+                      />
+
+                              <TextField
+          id="outlined-email-input"
+          label="Email"
+          className={classes.textField}
+          type="email"
+          name="email"
+          autoComplete="email"
+          margin="normal"
+          variant="outlined"
+        />
+
+                                                                                      <CustomInput
+                        labelText="mobile..."
+                        id="mobile"
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          type: "text",
+                          value: this.state.emailId,
+                          onChange: this.handleChange('mobile'),
+                          required:"true",
+                        }}
+                        
+                      />
+
+                    </CardBody>
+                    <CardFooter className={classes.cardFooter}>
+                      <Button type="submit" simple color="primary" size="lg" value="Submit">
+                        Submit
                       </Button>
-                      <Button justIcon link className={classes.margin5}>
-                        <i className={"fab fa-instagram"} />
-                      </Button>
-                      <Button justIcon link className={classes.margin5}>
-                        <i className={"fab fa-facebook"} />
-                      </Button>
-                    </div>
-                  </div>
-                </GridItem>
+                    </CardFooter>
+                  </form>
+                </Card>
+              </GridItem>
               </GridContainer>
-              <div className={classes.description}>
-                <p>
-                  An artist of considerable range, Chet Faker — the name taken
-                  by Melbourne-raised, Brooklyn-based Nick Murphy — writes,
-                  performs and records all of his own music, giving it a warm,
-                  intimate feel with a solid groove structure.{" "}
-                </p>
-              </div>
-              <GridContainer justify="center">
-                <GridItem xs={12} sm={12} md={8} className={classes.navWrapper}>
-                  
-                </GridItem>
-              </GridContainer>
-            </div>
+              </Paper>
           </div>
+          <Footer whiteFont />
         </div>
-        <Footer />
       </div>
     );
   }
 }
 
-export default withStyles(profilePageStyle)(ProfilePage);
+export default withStyles(incidentRegistrationPageStyle)(IncidentRegistrationPage);
