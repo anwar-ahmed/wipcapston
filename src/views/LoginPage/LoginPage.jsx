@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { createHashHistory } from 'history';
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -81,17 +81,18 @@ class LoginPage extends React.Component {
       <div>
         <Header
           absolute
-          color="transparent"
+          color="dark"
           brand="ESIM"
-          rightLinks={<HeaderLinks />}
+          rightLinks={<HeaderLinks loginpage="true"/>}
           {...rest}
         />
         <div
           className={classes.pageHeader}
           style={{
-            backgroundImage: "url(" + image + ")",
-            backgroundSize: "cover",
-            backgroundPosition: "top center"
+            // backgroundImage: "url(" + image + ")",
+            // backgroundSize: "cover",
+            // backgroundPosition: "top center"
+
           }}
         >
           <div className={classes.container}>
@@ -100,7 +101,7 @@ class LoginPage extends React.Component {
                 <Card className={classes[this.state.cardAnimaton]}>
                   <form className={classes.form} onSubmit={this.handleSubmit}>
                     <CardHeader color="primary" className={classes.cardHeader}>
-                      <h4>Login</h4>
+                      <h4>Login ESIM with</h4>
                       <div className={classes.socialLine}>
                         <Button
                           justIcon
@@ -118,20 +119,11 @@ class LoginPage extends React.Component {
                           color="transparent"
                           onClick={e => e.preventDefault()}
                         >
-                          <i className={"fab fa-facebook"} />
-                        </Button>
-                        <Button
-                          justIcon
-                          href="#pablo"
-                          target="_blank"
-                          color="transparent"
-                          onClick={e => e.preventDefault()}
-                        >
                           <i className={"fab fa-google-plus-g"} />
                         </Button>
                       </div>
                     </CardHeader>
-                    <p className={classes.divider}>Or Be Classical</p>
+                    <p className={classes.divider}>Or with personal email id</p>
                     <CardBody>
                       <CustomInput
                         labelText="Email..."
@@ -176,6 +168,11 @@ class LoginPage extends React.Component {
                       <Button type="submit" simple color="primary" size="lg" value="Submit">
                         Login
                       </Button>
+                      <Link to={"/signup-page"}  className={classes.link}>
+                      <Button simple color="primary" size="lg" >
+                        New User Signup
+                      </Button>
+                      </Link>
                     </CardFooter>
                   </form>
                 </Card>

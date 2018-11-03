@@ -6,6 +6,7 @@ import { createHashHistory } from 'history';
 import withStyles from "@material-ui/core/styles/withStyles";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Icon from "@material-ui/core/Icon";
+import Snackbar from '@material-ui/core/Snackbar';
 // @material-ui/icons
 import Email from "@material-ui/icons/Email";
 import People from "@material-ui/icons/People";
@@ -51,11 +52,12 @@ class SignupPage extends React.Component {
       firstName:'',
       lastName:'',
       location:'',
-      mobile:''
+      mobile:'',
+      open: true,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-  }
+   }
   componentDidMount() {
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears
     setTimeout(
@@ -90,6 +92,13 @@ class SignupPage extends React.Component {
     .catch(function (error) {
       console.log(error);
     });
+    // handleClick = state => () => {
+    //   this.setState({ open: true});
+    // };
+  
+    // handleClose =  () => {
+    //   this.setState({ open: false });
+    // };
 
     
   }
@@ -99,17 +108,17 @@ class SignupPage extends React.Component {
       <div>
         <Header
           absolute
-          color="transparent"
+          color="dark"
           brand="ESIM"
-          rightLinks={<HeaderLinks />}
+          rightLinks={<HeaderLinks loginasadminpage="true"/>}
           {...rest}
         />
         <div
           className={classes.pageHeader}
           style={{
-            backgroundImage: "url(" + image + ")",
-            backgroundSize: "cover",
-            backgroundPosition: "top center"
+            // backgroundImage: "url(" + image + ")",
+            // backgroundSize: "cover",
+            // backgroundPosition: "top center"
           }}
         >
           <div className={classes.container}>
@@ -238,15 +247,18 @@ class SignupPage extends React.Component {
                     </CardFooter>
                   </form>
                 </Card>
-                <SnackbarContent
-          message={
-            <span>
-              <b>SUCCESS ALERT:</b> User successfully registered !
-            </span>
-          }
-          close
-          color="success"
-          icon={Check}
+        <Snackbar
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center',
+            }}
+            open={this.state.open}
+            autoHideDuration={6000}
+          onClose={this.handleClose}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id"><b>SUCCESS ALERT:</b> User successfully registered !</span>}
         />
               </GridItem>
             </GridContainer>

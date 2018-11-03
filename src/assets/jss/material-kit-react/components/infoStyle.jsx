@@ -50,8 +50,8 @@ const infoStyle = {
     overflow: "hidden"
   },
   title,
-  description: {
-    color: grayColor,
+  title: {
+    color: "#155ff3",
     overflow: "hidden",
     marginTop: "0px",
     fontSize: "14px"

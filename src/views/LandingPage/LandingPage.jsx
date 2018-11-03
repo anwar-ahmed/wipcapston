@@ -51,27 +51,25 @@ class LandingPage extends React.Component {
       <div>
         <Header
           absolute
-          color="transparent"
+          color="dark"
           brand="ESIM"
-          rightLinks={<HeaderLinks />}
+          rightLinks={<HeaderLinks endusermenu="true"/>}
           {...rest}
         />
         <div
           className={classes.pageHeader}
           style={{
-            backgroundImage: "url(" + image + ")",
-            backgroundSize: "cover",
-            backgroundPosition: "top center"
+            // backgroundImage: "url(" + image + ")",
+            // backgroundSize: "cover",
+            // backgroundPosition: "top center"
           }}
         >
           <div className={classNames(classes.main, classes.mainRaised)}>
           <div className={classes.container}>
             <ProductSection />
-            {/* <TeamSection /> */}
-            {/* <WorkSection /> */}
           </div>
         </div>
-          <Footer />
+          <Footer whiteFont/>
         </div>
       </div>
     );

@@ -23,7 +23,7 @@ import CardFooter from "components/Card/CardFooter.jsx"
 
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 
-import AddIncidentForm from "./AddIncidentForm"
+import IncidentRecordForm from "./IncidentRecordForm"
 
  import incidentRegistrationPageStyle from "assets/jss/material-kit-react/views/incidentRegistrationPageStyle.jsx";
 import image from "assets/img/bg8.jpg";
@@ -97,7 +97,7 @@ class IncidentRegistrationPage extends React.Component {
         >
           <div className={classes.container}>
               <Paper className={classes.root} elevation={1}>
-              <AddIncidentForm/>
+              <IncidentRecordForm/>
              </Paper>
           </div>
           <Footer whiteFont />
