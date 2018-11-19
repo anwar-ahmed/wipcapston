@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import axios from 'axios';
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 
@@ -11,120 +11,123 @@ import GridItem from "components/Grid/GridItem.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 
-
-
 import workStyle from "assets/jss/material-kit-react/views/landingPageSections/workStyle.jsx";
+import { CssBaseline } from "@material-ui/core";
 
-var _profileUrl ='http://localhost:3000/profile/'
-var _incidentUrl = 'http://localhost:3000/incident'
+let _userUrl ='http://localhost:3000/profile/'
 
-class AddIncidentForm extends React.Component {
-  constructor(props) {
-    super(props);
-     this.state = {
-      emailId:'',
-      incidentType:'',
-      firstName:'',
-      lastName:'',
-      location:'',
-      opened:'',
-      description:''
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+class ProfileForm extends React.Component {
+   constructor (props) {
+       super(props);
+       this.state = {
+        emailId:'',
+        firstName:'',
+        lastName:'',
+        location:'',
+        mobile:'',
+        dob:''
+       }
+       this.handleChange = this.handleChange.bind(this);
+       this.handleSubmit = this.handleSubmit.bind(this);
+   }
 
-  handleChange = name => event => {
+   handleChange = name => event => {
     this.setState({
       [name]: event.target.value,
     });
   };
 
-  componentDidMount = () => {
-    axios.get(_profileUrl + 'sahin.choudhury@outlook.com')
-    .then( response => {
-        console.log(response)
-        this.setState({
-                emailId:response.data.data.emailId,
-                firstName:response.data.data.firstName,
-                lastName:response.data.data.lastName,
-                location:response.data.data.location,
-                mobile:response.data.data.mobile          
-        })
-
-        console.log(this.state.Users);
-    }
-    )
-    .catch(error => { throw error});
-  }
-
   handleSubmit =(event) => {
     event.preventDefault();
-    axios.post(_incidentUrl, {
-      requestedby:this.state.firstName + ' ' + this.state.lastName ,
-      emailId:this.state.location,
-      type: this.state.incidentType,
+    axios.put(_userUrl + 'sahin.choudhury@outlook.com', {
+      firstName:this.state.firstName,
+      lastName:this.state.lastName,
       location:this.state.location,
-      opened: this.state.opened,
-      description: this.state.description
+      mobile:this.state.mobile,
+      dob: this.state.dob
     })
     .then(response =>  {console.log(response);
     })
     .catch(error => { throw error});
 }
 
+
+  componentDidMount = () => {
+        axios.get(_userUrl + 'sahin.choudhury@outlook.com')
+        .then( response => {
+            console.log(response)
+            this.setState({
+                    emailId:response.data.data.emailId,
+                    firstName:response.data.data.firstName,
+                    lastName:response.data.data.lastName,
+                    location:response.data.data.location,
+                    mobile:response.data.data.mobile,
+                    dob:response.data.data.dob
+                
+            })
+
+            console.log(this.state.Users);
+        }
+        )
+        .catch(error => { throw error});
+
+
+  }
   render() {
     const { classes } = this.props;
     return (
       <div className={classes.section}>
         <GridContainer justify="center">
           <GridItem cs={12} sm={12} md={8}>
-            <h2 className={classes.title}>Enter Non SOS Incident Details</h2>
+            <h2 className={classes.title}>Update User Details</h2>
             <h4 className={classes.description}>
-            Please send us details about the incident you would like to report. 
-            Our Complaint Center will analyze your complaint and take the 
-            appropriate measures in order that the reported situation will not 
-            occur at any other time in the future.
+                    User can update his or her registered personal details here. Emailid cannot be changed once it 
+                    registered.
             </h4>
             <form className={classes.form} onSubmit={this.handleSubmit}>
               <GridContainer>
                 <GridItem xs={12} sm={12} md={6}>
                   <CustomInput
-                    labelText="Your Name"
-                    id="name"
+                    labelText="First Name"
+                    id="firstName"
                     formControlProps={{
                       fullWidth: true
                     }}
                     inputProps={{
                       type: "text",
-                      value: this.state.firstName + ' ' + this.state.lastName
+                      value: this.state.firstName,
+                      onChange: this.handleChange('firstName'),
                     }}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={6}>
                   <CustomInput
-                    labelText="Your Email"
-                    id="emailid"
+                    labelText="Last Name"
+                    id="lastName"
                     formControlProps={{
                       fullWidth: true
                     }}
                     inputProps={{
+                      type: "text",
+                      value: this.state.lastName,
+                      onChange: this.handleChange('lastName'),
+                    }}
+                  />
+                </GridItem>
+                <GridItem xs={12} sm={12} md={6}>
+                  <CustomInput
+                    disabled
+                    labelText="Email Id"
+                    id="emailId"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{
+                    
                       type: "email",
-                      value: this.state.emailId
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={6}>
-                  <CustomInput
-                    labelText="Incident Type"
-                    id="incidenttype"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      type: "text",
-                      value: this.state.incidentType,
-                      onChange: this.handleChange('incidentType'),
+                    value: this.state.emailId,
+
+
                     }}
                   />
                 </GridItem>
@@ -137,11 +140,12 @@ class AddIncidentForm extends React.Component {
                     }}
                     inputProps={{
                       type: "text",
-                      value: this.state.location
+                      value: this.state.location,
+                      onChange: this.handleChange('location')
                     }}
                   />
                 </GridItem>
-                {/* <GridItem xs={12} sm={12} md={6}>
+                <GridItem xs={12} sm={12} md={6}>
                   <CustomInput
                     labelText="Mobile Number"
                     id="mobile"
@@ -150,39 +154,25 @@ class AddIncidentForm extends React.Component {
                     }}
                     inputProps={{
                       type: "text",
-                      value: this.state.mobile
+                      value: this.state.mobile,
+                      onChange: this.handleChange('mobile'),
                     }}
                   />
-                </GridItem> */}
+                </GridItem>
                 <GridItem xs={12} sm={12} md={6}>
                   <CustomInput
-                    labelText="Date"
-                    id="opened"
+                    labelText="Date of Birth"
+                    id="dob"
                     formControlProps={{
                       fullWidth: true
                     }}
                     inputProps={{
                       type: "date",
-                      value: this.state.opened,
-                      onChange: this.handleChange('opened'),
+                      value: this.state.dob,
+                      onChange: this.handleChange('dob'),
                     }}
                   />
                 </GridItem>
-                <CustomInput
-                  labelText="Incident Description"
-                  id="description"
-                  formControlProps={{
-                    fullWidth: true,
-                    className: classes.textArea
-                  }}
-                  inputProps={{
-                    multiline: true,
-                    rows: 3,
-                    type: "text",
-                    value: this.state.description,
-                    onChange: this.handleChange('description'),
-                  }}
-                />
                 <GridContainer justify="center">
                   <GridItem
                     xs={12}
@@ -190,7 +180,7 @@ class AddIncidentForm extends React.Component {
                     md={4}
                     className={classes.textCenter}
                   >
-                    <Button type="submit" simple color="primary" value="Submit">Register Incident</Button>
+                    <Button type="submit" simple color="primary" value="Submit">Update Profile</Button>
                   </GridItem>
                 </GridContainer>
               </GridContainer>
@@ -202,4 +192,4 @@ class AddIncidentForm extends React.Component {
   }
 }
 
-export default withStyles(workStyle)(AddIncidentForm);
+export default withStyles(workStyle)(ProfileForm);

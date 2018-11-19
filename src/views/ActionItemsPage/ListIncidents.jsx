@@ -8,6 +8,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
+
 import Button from "components/CustomButtons/Button.jsx";
 import TextField from '@material-ui/core/TextField';
 import Table from '@material-ui/core/Table';
@@ -16,9 +17,54 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
+
+
 import workStyle from "assets/jss/material-kit-react/views/landingPageSections/workStyle.jsx";
 
+
+import Incident from "./Incident"
+import Axios from "axios";
+
+var _incidentUrl = 'http://localhost:3000/incident/'
+
+
+
 class ListIncidents extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      IncidentList:[],
+      dataSource:[],
+      searchText:'',
+    }
+  }
+
+  getIncidentList = (searchText, queryType) => {
+    Axios.get(_incidentUrl + searchText)
+    .then( response => {
+
+      this.setState({
+        IncidentList: response.data.data,
+        dataSource: response.data.data
+
+      });
+
+    })
+    .catch(error => { throw error});
+  }
+
+
+  handleChange = name => event => {
+    this.setState({
+      [name]: event.target.value,
+    });
+
+    this.getIncidentList(event.target.value,'SearchLoad');
+  };
+  componentDidMount = () => {
+    this.getIncidentList('','InitialLoad');
+  }
 
 
   styles = theme => ({
@@ -37,23 +83,14 @@ class ListIncidents extends React.Component {
 
     const { classes, ...rest } = this.props;
 
-    let id = 0;
-  function createData(RaisedBy , Opened, Type, Description, Priority , Status) {
-  id += 1;
-  return { id, RaisedBy , Opened, Type, Description, Priority , Status};
-  }
-  
-  const rows = [
-  createData('Anwar Ahmed', "somedate", "fire", "there is small fire", "low","open"),
-  createData('Anwar Ahmed', "somedate", "fire", "there is small fire", "low","open"),
-  createData('Anwar Ahmed', "somedate", "fire", "there is small fire", "low","open"),
-  createData('Anwar Ahmed', "somedate", "fire", "there is small fire", "low","open"),
-  createData('Anwar Ahmed', "somedate", "fire", "there is small fire", "low","open")
-  ];
+  let  renderAllIncident = this.state.IncidentList.map((_incident, index) => {
+    return <Incident key={index} Incident={_incident}  />;
+});
     return (
       <div className={classes.section}>
         <GridContainer justify="center">
           <GridItem cs={12} sm={12} md={8}>
+           <h4 className={classes.title}>List of Non SOS Incident Reported</h4>
           <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={6}>
                   <CustomInput
@@ -64,6 +101,8 @@ class ListIncidents extends React.Component {
                     }}
                     inputProps={{
                       type: "search",
+                      value: this.state.searchText,
+                      onChange: this.handleChange('searchText'),
                       margin:"normal"
                     }}
                   />
@@ -75,38 +114,25 @@ class ListIncidents extends React.Component {
         <TableHead>
           <TableRow>
             <TableCell>Number</TableCell>
-            <TableCell >Requested By</TableCell>
+            <TableCell >Requested By</TableCell>    
             <TableCell >Opened</TableCell>
             <TableCell >Type</TableCell>
             <TableCell >Description</TableCell>
             <TableCell >Priority</TableCell>
             <TableCell >Status</TableCell>
-            <TableCell >Delete</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => {
-            return (
-              <TableRow key={row.id}>
-                <TableCell component="th" scope="row">
-                  {row.id}
-                </TableCell>
-                <TableCell numeric>{row.RaisedBy}</TableCell>
-                <TableCell numeric>{row.Opened}</TableCell>
-                <TableCell numeric>{row.Type}</TableCell>
-                <TableCell numeric>{row.Description}</TableCell>
-                <TableCell numeric>{row.Priority}</TableCell>
-                <TableCell numeric>{row.Status}</TableCell>
-                <TableCell numeric><Button>Delete</Button></TableCell>
-              </TableRow>
-            );
-          })}
+        {renderAllIncident}  
         </TableBody>
       </Table>
 
               </GridContainer>
           </GridItem>
         </GridContainer>
+
+
+              
       </div>
     );
   }

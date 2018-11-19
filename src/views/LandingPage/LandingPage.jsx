@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // @material-ui/core components
@@ -26,17 +27,31 @@ import ProductSection from "./Sections/ProductSection.jsx";
 //import landingPageStyle from "assets/jss/material-kit-react/views/landingPage.jsx";
 import landingPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
 
-import image from "assets/img/bg8.jpg";
+var _notificationUrl = 'http://localhost:3000/notification'
 
 class LandingPage extends React.Component {
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
     this.state = {
-      cardAnimaton: "cardHidden"
+      cardAnimaton: "cardHidden",
+      notificationList:[]
     };
   }
   componentDidMount() {
+
+    axios.get(_notificationUrl)
+    .then( response => {
+        this.setState({
+                notificationList:response.data.data      
+        })
+
+        console.log(this.state.Users);
+    }
+    )
+    .catch(error => { throw error});
+     
+
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears
     setTimeout(
       function() {
@@ -47,13 +62,17 @@ class LandingPage extends React.Component {
   }
   render() {
     const { classes, ...rest } = this.props;
+
+    
+  const alertCount =  this.state.notificationList.filter(value => value.type === 'alert').length;
+  const updateCount = this.state.notificationList.filter(value => value.type === 'update').length;
     return (
       <div>
         <Header
           absolute
           color="dark"
           brand="ESIM"
-          rightLinks={<HeaderLinks endusermenu="true"/>}
+          rightLinks={<HeaderLinks endusermenu="true" alertCount={alertCount} updateCount={updateCount} />}
           {...rest}
         />
         <div

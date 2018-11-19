@@ -25,7 +25,9 @@ import GridItem from "components/Grid/GridItem.jsx";
 import headerLinksStyle from "assets/jss/material-kit-react/components/headerLinksStyle.jsx";
 
 function HeaderLinks({ ...props }) {
-  const { classes,endusermenu,loginpage,loginasadminpage,signuppage, } = props;
+  const { classes,endusermenu,loginpage,loginasadminpage,alertCount,updateCount } = props;
+
+
   return (
     <List className={classes.list}>
     {endusermenu ? 
@@ -49,6 +51,9 @@ function HeaderLinks({ ...props }) {
                        <Link to="/profile-page" className={classes.dropdownLink}>
                                   Profile
                                 </Link>,
+                                                       <Link to="/actionitems-page" className={classes.dropdownLink}>
+                                                       Action Item Page
+                                                     </Link>,
                                           <Link to={"/adminlogin-page"}  className={classes.dropdownLink}>
                                             Signout
                                           </Link>
@@ -58,15 +63,15 @@ function HeaderLinks({ ...props }) {
       </ListItem>
       <ListItem className={classes.listItem}>
       <IconButton color="inherit">
-                <Badge badgeContent={17} color="secondary">
-                  <NotificationsIcon />
+                <Badge badgeContent={alertCount} color="secondary">
+                <Link to={"/notification-page/" + "alert"}  className={classes.link}><NotificationsIcon /></Link>
                 </Badge>
               </IconButton>
       </ListItem>
       <ListItem className={classes.listItem}>
       <IconButton color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                  <Message />
+                <Badge badgeContent={updateCount} color="secondary">
+                <Link to={"/notification-page/" + "update"}  className={classes.link}><Message /></Link>
                 </Badge>
               </IconButton>
       </ListItem>
