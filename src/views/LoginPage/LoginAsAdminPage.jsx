@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { createHashHistory } from 'history';
+import { createBrowserHistory } from 'history';
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -29,27 +29,22 @@ import image from "assets/img/bg8.jpg";
 
 var _userUrl = "http://localhost:3000/users/";
 
+const history = createBrowserHistory({forceRefresh:true});
+
 class LoginPage extends React.Component {
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
     this.state = {
-      cardAnimaton: "cardHidden",
       emailId:'Administrator',
-      password:''
+      password:'',
+      textMessage:''
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  componentDidMount() {
-    // we add a hidden class to the card and after 700 ms we delete it and the transition appears
-    setTimeout(
-      function() {
-        this.setState({ cardAnimaton: "" });
-      }.bind(this),
-      700
-    );
-  }
+
+
 
   handleChange = name => event => {
     this.setState({
@@ -59,15 +54,19 @@ class LoginPage extends React.Component {
 
   handleSubmit =(event) => {
     event.preventDefault();
-   console.log("i am here");
     axios.post(_userUrl + "login", {
       username:this.state.emailId,
       password:this.state.password
     })
-    .then(function (response) {
-      console.log(response);
-      //this.props.history.push('/');
-      // createHashHistory.push('/')
+    .then( (res) => {
+
+      if(res.data.message == 'Valid User') {
+        sessionStorage.setItem('username', res.data.user.emailId);
+        history.push('/admin-page')
+        }
+        this.setState({
+          textMessage:res.data.message
+        })
     })
     .catch(function (error) {
       console.log(error);
@@ -145,6 +144,7 @@ class LoginPage extends React.Component {
                       <Button type="submit" simple color="primary" size="lg" value="Submit">
                         Login
                       </Button>
+                      <p>{this.state.textMessage}</p>
                     </CardFooter>
                   </form>
                 </Card>

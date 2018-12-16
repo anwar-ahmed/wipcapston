@@ -12,10 +12,11 @@ import LoginAsAdminPage from "views/LoginPage/LoginAsAdminPage.jsx";
 import SignupPage from "views/SignupPage/SignupPage.jsx";
 import ViewIncidentRecord from "views/ViewIncidentRecordPage/ViewIncidentRecord"
 import ProfilePage from "views/ProfilePage/ProfilePage"
+import AdminPage from "views/AdminPage/AdminPage"
 
 
 var indexRoutes = [
-//   { path: "/landing-page", name: "LandingPage", component: LandingPage },
+  { path: "/landing-page", name: "LandingPage", component: LandingPage },
   { path: "/notification-page/:type", name: "NotificationPage", component: NotificationPage },
   { path: "/signup-page", name: "SignupPage", component: SignupPage },
   { path: "/login-page", name: "LoginPage", component: LoginPage },
@@ -24,8 +25,9 @@ var indexRoutes = [
   {path:"/SOS-page", name: "SOSPage", component: SOSPage},
   {path:"/actionitems-page", name: "ActionItemsPage", component: ActionItemsPage},
   {path:"/profile-page", name: "ProfilePage", component: ProfilePage},
+  {path:"/admin-page", name: "AdminPage", component: AdminPage},
   {path:"/incidentdetail-page/:id" , name: "IncidentDetailPage", component: IncidentDetailPage},
-  { path: "/", name: "LandingPage", component: LandingPage }
+  {path: "/", name: "LoginPage", component: LoginPage }
 ];
 
 export default indexRoutes;

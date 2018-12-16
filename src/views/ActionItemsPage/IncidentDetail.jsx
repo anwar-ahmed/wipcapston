@@ -24,6 +24,8 @@ import javascriptStyles from "assets/jss/material-kit-react/views/componentsSect
 
 var _incidentUrl = 'http://localhost:3000/incident/detail/'
 
+var _notificationUrl = 'http://localhost:3000/notification'
+
 function Transition(props) {
   return <Slide direction="down" {...props} />;
 }
@@ -67,6 +69,19 @@ class IncidentDetail extends React.Component {
     .then(response =>  {console.log(response);
     })
     .catch(error => { throw error});
+
+    axios.post(_notificationUrl , {
+      type:"update",
+      emailId:"sahin.choudhury@outlook.com",
+      incidentId:this.props.match.params.id,
+      opened:"2018-02-20",
+      message: "status changed to :" + this.state.status
+
+    })
+    .then(response =>  {console.log(response);
+    })
+    .catch(error => { throw error});
+
 
     this.setState({
         open:false

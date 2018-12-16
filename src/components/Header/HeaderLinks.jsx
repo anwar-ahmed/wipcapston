@@ -25,7 +25,7 @@ import GridItem from "components/Grid/GridItem.jsx";
 import headerLinksStyle from "assets/jss/material-kit-react/components/headerLinksStyle.jsx";
 
 function HeaderLinks({ ...props }) {
-  const { classes,endusermenu,loginpage,loginasadminpage,alertCount,updateCount } = props;
+  const { classes,endusermenu,controlusermenu,loginpage,loginasadminpage,alertCount,updateCount,sessionName } = props;
 
 
   return (
@@ -51,9 +51,6 @@ function HeaderLinks({ ...props }) {
                        <Link to="/profile-page" className={classes.dropdownLink}>
                                   Profile
                                 </Link>,
-                                                       <Link to="/actionitems-page" className={classes.dropdownLink}>
-                                                       Action Item Page
-                                                     </Link>,
                                           <Link to={"/adminlogin-page"}  className={classes.dropdownLink}>
                                             Signout
                                           </Link>
@@ -79,7 +76,57 @@ function HeaderLinks({ ...props }) {
               {/* <GridContainer justify="center">
               <GridItem xs={12} sm={12} md={8}> */}
                 <Button color="primary" round>
-                 Welcome Anwar Ahmed !
+                 Welcome  {sessionName} !
+                </Button>
+              {/* </GridItem>
+            </GridContainer> */}
+            </ListItem> </div>
+                : ''}
+          {controlusermenu ? 
+    <div>
+      <ListItem className={classes.listItem}>
+        <CustomDropdown
+          noLiPadding
+          buttonText="Menu"
+          buttonProps={{
+            className: classes.navLink,
+            color: "transparent"
+          }}
+          buttonIcon={Apps}
+          dropdownList={[
+                                                       <Link to="/actionitems-page" className={classes.dropdownLink}>
+                                                       Action Item Page
+                                                     </Link>,
+                                                                                                            <Link to="/actionitems-page" className={classes.dropdownLink}>
+                                                                                                            Send Security Alert
+                                                                                                          </Link>,
+                                          <Link to={"/login-page"}  className={classes.dropdownLink}>
+                                            Signout
+                                          </Link>
+          
+          ]}
+        />
+      </ListItem>
+      { endusermenu ? <div>
+      <ListItem className={classes.listItem}>
+      <IconButton color="inherit">
+                <Badge badgeContent={alertCount} color="secondary">
+                <Link to={"/notification-page/" + "alert"}  className={classes.link}><NotificationsIcon /></Link>
+                </Badge>
+              </IconButton>
+      </ListItem>
+      <ListItem className={classes.listItem}>
+      <IconButton color="inherit">
+                <Badge badgeContent={updateCount} color="secondary">
+                <Link to={"/notification-page/" + "update"}  className={classes.link}><Message /></Link>
+                </Badge>
+              </IconButton>
+      </ListItem> </div>: '' }
+            <ListItem className={classes.listItem}>
+              {/* <GridContainer justify="center">
+              <GridItem xs={12} sm={12} md={8}> */}
+                <Button color="primary" round>
+                 Welcome {sessionName} !
                 </Button>
               {/* </GridItem>
             </GridContainer> */}

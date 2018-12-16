@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
-import { createHashHistory } from 'history';
+import { createBrowserHistory } from 'history';
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -26,10 +26,6 @@ import CardFooter from "components/Card/CardFooter.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 
 
-// @material-ui/icons
-import Check from "@material-ui/icons/Check";
-import Warning from "@material-ui/icons/Warning";
-
 // core components
 import SnackbarContent from "components/Snackbar/SnackbarContent.jsx";
 
@@ -37,7 +33,7 @@ import SnackbarContent from "components/Snackbar/SnackbarContent.jsx";
 
 import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
 
-import image from "assets/img/bg8.jpg";
+const history = createBrowserHistory({forceRefresh:true});
 
 var _userUrl = "http://localhost:3000/users/";
 
@@ -46,26 +42,20 @@ class SignupPage extends React.Component {
     super(props);
     // we use this to make the card to appear after the page has been rendered
     this.state = {
-      cardAnimaton: "cardHidden",
       emailId:'',
       password:'',
       firstName:'',
       lastName:'',
       location:'',
       mobile:'',
-      open: true,
+      open: false,
+      textMessage:''
+
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
    }
   componentDidMount() {
-    // we add a hidden class to the card and after 700 ms we delete it and the transition appears
-    setTimeout(
-      function() {
-        this.setState({ cardAnimaton: "" });
-      }.bind(this),
-      700
-    );
   }
   handleChange = name => event => {
     this.setState({
@@ -75,7 +65,6 @@ class SignupPage extends React.Component {
 
   handleSubmit =(event) => {
     event.preventDefault();
-   console.log("i am here");
     axios.post(_userUrl + "signup", {
       username:this.state.emailId,
       password:this.state.password,
@@ -84,14 +73,24 @@ class SignupPage extends React.Component {
       location:this.state.location,
       mobile:this.state.mobile
     })
-    .then(function (response) {
-      console.log(response);
-      //this.props.history.push('/');
-      createHashHistory.push('/')
+    .then( (res)  => {
+      console.log(res);
+
+      this.setState({
+        open: true,
+        textMessage: res.data.status
+      })
+
+      if(res.data.status == 'signup success') {
+        history.push('/login-page')
+      }
+
     })
-    .catch(function (error) {
+    .catch((error) => {
       console.log(error);
     });
+
+
     // handleClick = state => () => {
     //   this.setState({ open: true});
     // };
@@ -258,7 +257,7 @@ class SignupPage extends React.Component {
           ContentProps={{
             'aria-describedby': 'message-id',
           }}
-          message={<span id="message-id"><b>SUCCESS ALERT:</b> User successfully registered !</span>}
+          message={<span id="message-id"><b>ALERT:</b> {this.state.textMessage} !</span>}
         />
               </GridItem>
             </GridContainer>

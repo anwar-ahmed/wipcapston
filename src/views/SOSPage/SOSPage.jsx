@@ -1,7 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import axios from "axios";
 // @material-ui/core components
-import withStyles from "@material-ui/core/styles/withStyles";
+import { withStyles } from '@material-ui/core/styles';
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import GridListTileBar from '@material-ui/core/GridListTileBar';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import IconButton from '@material-ui/core/IconButton';
+import InfoIcon from '@material-ui/icons/Info';
+// import tileData from './tileData';
 
 // @material-ui/icons
 import Security from "@material-ui/icons/Security";
@@ -11,61 +19,125 @@ import Fingerprint from "@material-ui/icons/Fingerprint";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
 import InfoArea from "components/InfoArea/InfoArea.jsx";
+import Header from "components/Header/Header.jsx";
+import HeaderLinks from "components/Header/HeaderLinks.jsx";
+import Footer from "components/Footer/Footer.jsx";
 
-import productStyle from "assets/jss/material-kit-react/views/landingPageSections/productStyle.jsx";
+import image1 from "assets/img/security.jpg";
+import image2 from "assets/img/fire.jpg";
+import image3 from "assets/img/ambulance.jpg";
+import image4 from "assets/img/police.jpg";
 
+import productStyle from "assets/jss/material-kit-react/views/sospageStyle.jsx";
+var _notificationUrl = 'http://localhost:3000/notification'
 class SOSPage extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      notificationList:[]
+    };
+  }
+
+  componentDidMount() {
+
+    axios.get(_notificationUrl)
+    .then( response => {
+        this.setState({
+                notificationList:response.data.data      
+        })
+
+        console.log(this.state.Users);
+    }
+    )
+    .catch(error => { throw error});  
+  }
   render() {
-    const { classes } = this.props;
+    const { classes, ...rest } = this.props;
+
+    const alertCount =  this.state.notificationList.filter(value => value.type === 'alert').length;
+    const updateCount = this.state.notificationList.filter(value => value.type === 'update').length;
+    
+const tileData = [
+  {
+    "_id" : "SOS01",
+    "title" : "Security",
+    "description" : "SOS Security Service",
+    "img" : image1,
+    "email" : "/emergency@security.com",
+    "number" : "9898989",
+    "twitter" : "@security"
+},
+{
+    "_id" : "SOS02",
+    "title" : "Fire Service",
+    "description" : "SOS Fire Service",
+    img : image2,
+    "email" : "emergency@fire.com",
+    "number" : "9898989",
+    "twitter" : "@fire"
+},
+{
+    "_id" : "SOS03",
+    "title" : "Ambulance",
+    "description" : "SOS Ambulance Service",
+    img : image3,
+    "email" : "emergency@hospital.com",
+    "number" : "9898989",
+    "twitter" : "@hospital"
+},
+{
+    "_id" : "SOS04",
+    "title" : "Police",
+    "description" : "SOS Police Service",
+    img : image4,
+    "email" : "emergency@police.com",
+    "number" : "9898989",
+    "twitter" : "@police"
+}
+]
+    
     return (
+      <div>
+
+      <Header
+          absolute
+          color="dark"
+          brand="ESIM"
+          rightLinks={<HeaderLinks endusermenu="true" alertCount={alertCount} updateCount={updateCount} />}
+          {...rest}
+        />
       <div className={classes.section}>
-        {/* <GridContainer justify="center">
-          <GridItem xs={12} sm={12} md={8}>
-            <h2 className={classes.title}>Let's talk product</h2>
-            <h5 className={classes.description}>
-              This is the paragraph where you can write more details about your
-              product. Keep you user engaged by providing meaningful
-              information. Remember that by this time, the user is curious,
-              otherwise he wouldn't scroll to get here. Add a button if you want
-              the user to see more.
-            </h5>
-          </GridItem>
-        </GridContainer> */}
         <div>
           <GridContainer justify="center">
-            <GridItem xs={12} sm={12} md={4}>
-            <Link to={"/login-page"} style={{ textDecoration: 'none'}} >
-              <InfoArea
-                title="SOS Services"
-                description="Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough."
-                icon={Security}
-                iconColor="info"
-                vertical
-              />
-            </Link>
-            </GridItem>
-            <GridItem xs={12} sm={12} md={4}>
-            <Link to={"/incidentregistration-page"} style={{ textDecoration: 'none'}} >
-              <InfoArea
-                title="Register Non SOS Incident"
-                description="Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough."
-                icon={VerifiedUser}
-                iconColor="success"
-                vertical
-              />
-            </Link>
-            </GridItem>
-            {/* <GridItem xs={12} sm={12} md={4}>
-              <InfoArea
-                title="Log Incident"
-                description="Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough."
-                icon={Fingerprint}
-                iconColor="danger"
-                vertical
-              />
-            </GridItem> */}
+                 <div className={classes.root}>
+      <GridList cellHeight={180} className={classes.gridList}>
+        <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
+          <ListSubheader component="div" className={classes.title}>SOS Services</ListSubheader>
+        </GridListTile>
+        {tileData.map(tile => (
+          <GridListTile key={tile._id}>
+            <img src={tile.img} alt={tile.title} />
+            <GridListTileBar
+              title={tile.title}
+              subtitle={<span>{tile.description}</span>}
+              actionIcon={
+                <IconButton className={classes.icon}>
+                  SOS
+                </IconButton>
+              }
+            />
+          </GridListTile>
+        ))}
+      </GridList>
+    </div>
+
           </GridContainer>
+            
         </div>
+   
+      </div>
+      <Footer whiteFont/>
       </div>
     );
   }

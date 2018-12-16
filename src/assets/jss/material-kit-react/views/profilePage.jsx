@@ -24,7 +24,7 @@ const profilePageStyle = {
   },
   ...imagesStyle,
   main: {
-    background: "#FFFFFF",
+    // background: "#FFFFFF",
     position: "relative",
     zIndex: "3"
   },

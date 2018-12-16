@@ -24,9 +24,13 @@ import Close from "@material-ui/icons/Close";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
 import Button from "components/CustomButtons/Button.jsx";
+
+import NotificationCard from "./NotificationCard"
 import javascriptStyles from "assets/jss/material-kit-react/views/componentsSections/javascriptStyles.jsx";
 
 var _notificationUrl = 'http://localhost:3000/notification'
+
+
 
 function Transition(props) {
   return <Slide direction="down" {...props} />;
@@ -69,12 +73,15 @@ class NotificationPage extends React.Component {
 
   render() {
 
-    const { classes } = this.props;
+   const { classes } = this.props;
+
+    let renderAllNotification = this.state.notificationList.filter(value => value.type === this.props.match.params.type).map((_notification, index) => {
+      return < NotificationCard key={index} notification={_notification} />;
+    })
     return (
       <div className={classes.section}>
         <div className={classes.container}>
           <GridContainer>
-
             <GridItem xs={12} sm={12} md={6}>
               <GridContainer>
                 <GridItem xs={12} sm={12} md={6} lg={4}>
@@ -111,19 +118,7 @@ class NotificationPage extends React.Component {
                     >
               <GridContainer justify="center">
                 <GridItem xs={12} sm={12} md={6}>
-                 <Card >
-                    <CardBody>
-                      <p>{this.state.notificationList.message}</p>
-                    </CardBody>
-                </Card>
-                <Card >
-                    <CardBody>
-                    </CardBody>
-                </Card>
-                <Card >
-                    <CardBody>
-                    </CardBody>
-                </Card>
+                {renderAllNotification}
                 </GridItem>
               </GridContainer>
                     </DialogContent>

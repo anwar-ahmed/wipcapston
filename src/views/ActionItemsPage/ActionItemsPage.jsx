@@ -17,7 +17,6 @@ import ListIncidents from "./ListIncidents"
 import incidentRegistrationPageStyle from "assets/jss/material-kit-react/views/incidentRegistrationPageStyle.jsx";
 
 
-
 class ActionItemsPage extends React.Component {
 
   render() {
@@ -28,7 +27,7 @@ class ActionItemsPage extends React.Component {
           absolute
           color="dark"
           brand="ESIM"
-          rightLinks={<HeaderLinks modules="true"/>}
+          rightLinks={<HeaderLinks controlusermenu="true" sessionName={sessionStorage.getItem('username')} />}
           {...rest}
         />
         <div
