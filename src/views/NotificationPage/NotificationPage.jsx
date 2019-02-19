@@ -10,14 +10,8 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogActions from "@material-ui/core/DialogActions";
-import CustomInput from "components/CustomInput/CustomInput.jsx";
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import TextField from '@material-ui/core/TextField';
-import Card from "components/Card/Card.jsx";
-import CardBody from "components/Card/CardBody.jsx";
-import CardHeader from "components/Card/CardHeader.jsx";
-import CardFooter from "components/Card/CardFooter.jsx";
+import { createBrowserHistory } from 'history';
+
 // @material-ui/icons
 import Close from "@material-ui/icons/Close";
 // core components
@@ -30,6 +24,7 @@ import javascriptStyles from "assets/jss/material-kit-react/views/componentsSect
 
 var _notificationUrl = 'http://localhost:3000/notification'
 
+const history = createBrowserHistory({forceRefresh:true});
 
 
 function Transition(props) {
@@ -56,6 +51,8 @@ class NotificationPage extends React.Component {
     this.setState({
         open:false
     });
+
+    history.goBack();
   }
 
   componentDidMount = () => {

@@ -10,6 +10,10 @@ import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Button from "components/CustomButtons/Button.jsx";
+// import Button from '@material-ui/core/Button';
+import Snackbar from '@material-ui/core/Snackbar';
+import { createBrowserHistory } from 'history';
+
 
 
 
@@ -17,6 +21,7 @@ import workStyle from "assets/jss/material-kit-react/views/landingPageSections/w
 
 var _profileUrl ='http://localhost:3000/profile/'
 var _incidentUrl = 'http://localhost:3000/incident'
+const history = createBrowserHistory({forceRefresh:true});
 
 class AddIncidentForm extends React.Component {
   constructor(props) {
@@ -28,11 +33,21 @@ class AddIncidentForm extends React.Component {
       lastName:'',
       location:'',
       opened:'',
-      description:''
+      description:'',
+      open:false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
+  handleSnkClick = () => {
+    this.setState({ open: true});
+  };
+
+  handleSnkClose = () => {
+    this.setState({ open: false });
+    history.goBack();
+  };
 
   handleChange = name => event => {
     this.setState({
@@ -41,7 +56,7 @@ class AddIncidentForm extends React.Component {
   };
 
   componentDidMount = () => {
-    axios.get(_profileUrl + 'sahin.choudhury@outlook.com')
+    axios.get(_profileUrl + sessionStorage.getItem('username'))
     .then( response => {
         console.log(response)
         this.setState({
@@ -68,7 +83,14 @@ class AddIncidentForm extends React.Component {
       opened: this.state.opened,
       description: this.state.description
     })
-    .then(response =>  {console.log(response);
+    .then(response =>  {
+
+      console.log(response.data.success);
+      if( response.data.success === true) {
+        this.handleSnkClick();
+        console.log("inside");
+
+      }
     })
     .catch(error => { throw error});
 }
@@ -141,19 +163,6 @@ class AddIncidentForm extends React.Component {
                     }}
                   />
                 </GridItem>
-                {/* <GridItem xs={12} sm={12} md={6}>
-                  <CustomInput
-                    labelText="Mobile Number"
-                    id="mobile"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      type: "text",
-                      value: this.state.mobile
-                    }}
-                  />
-                </GridItem> */}
                 <GridItem xs={12} sm={12} md={6}>
                   <CustomInput
                     labelText="Date"
@@ -195,6 +204,14 @@ class AddIncidentForm extends React.Component {
                 </GridContainer>
               </GridContainer>
             </form>
+            <Snackbar
+          open={this.state.open}
+          onClose={this.handleSnkClose}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">Sucessfully Created</span>}
+        />
           </GridItem>
         </GridContainer>
       </div>

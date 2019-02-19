@@ -28,7 +28,7 @@ import image2 from "assets/img/fire.jpg";
 import image3 from "assets/img/ambulance.jpg";
 import image4 from "assets/img/police.jpg";
 
-import productStyle from "assets/jss/material-kit-react/views/sospageStyle.jsx";
+import sospageStyle from "assets/jss/material-kit-react/views/sospageStyle.jsx";
 var _notificationUrl = 'http://localhost:3000/notification'
 class SOSPage extends React.Component {
 
@@ -104,9 +104,13 @@ const tileData = [
           absolute
           color="dark"
           brand="ESIM"
-          rightLinks={<HeaderLinks endusermenu="true" alertCount={alertCount} updateCount={updateCount} />}
+          rightLinks={<HeaderLinks endusermenu="true" alertCount={alertCount} updateCount={updateCount} sessionName={sessionStorage.getItem('username')}/>}
           {...rest}
         />
+                <div
+          className={classes.pageHeader}
+        >
+        <div className={classes.container}>
       <div className={classes.section}>
         <div>
           <GridContainer justify="center">
@@ -137,10 +141,12 @@ const tileData = [
         </div>
    
       </div>
+      </div>
       <Footer whiteFont/>
+      </div>
       </div>
     );
   }
 }
 
-export default withStyles(productStyle)(SOSPage);
+export default withStyles(sospageStyle)(SOSPage);

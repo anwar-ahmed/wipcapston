@@ -45,8 +45,8 @@ const notificationPageStyle = {
   cardHeader: {
     width: "auto",
     textAlign: "center",
-    marginLeft: "20px",
-    marginRight: "20px",
+    marginLeft: "10px",
+    marginRight: "10px",
     marginTop: "-40px",
     padding: "20px 0",
     marginBottom: "15px"

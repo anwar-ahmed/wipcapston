@@ -13,15 +13,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Header from "components/Header/Header.jsx";
 import HeaderLinks from "components/Header/HeaderLinks.jsx";
 import Footer from "components/Footer/Footer.jsx";
-import GridContainer from "components/Grid/GridContainer.jsx";
-import GridItem from "components/Grid/GridItem.jsx";
-import Button from "components/CustomButtons/Button.jsx";
-import Card from "components/Card/Card.jsx";
-import CardBody from "components/Card/CardBody.jsx";
-import CardHeader from "components/Card/CardHeader.jsx";
-import CardFooter from "components/Card/CardFooter.jsx"
 
-import CustomInput from "components/CustomInput/CustomInput.jsx";
 
 import ProfileForm from "./ProfileForm"
 
@@ -29,6 +21,7 @@ import ProfileForm from "./ProfileForm"
 import image from "assets/img/bg8.jpg";
 
 var _userUrl = "http://localhost:3000/users/";
+var _notificationUrl = 'http://localhost:3000/notification'
 
 class IncidentRegistrationPage extends React.Component {
   constructor(props) {
@@ -37,19 +30,24 @@ class IncidentRegistrationPage extends React.Component {
     this.state = {
       cardAnimaton: "cardHidden",
       emailId:'',
-      password:''
+      password:'',
+      notificationList:[]
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+
   }
   componentDidMount() {
-    // we add a hidden class to the card and after 700 ms we delete it and the transition appears
-    setTimeout(
-      function() {
-        this.setState({ cardAnimaton: "" });
-      }.bind(this),
-      700
-    );
+
+    axios.get(_notificationUrl)
+    .then( response => {
+        this.setState({
+                notificationList:response.data.data      
+        })
+      }
+      )
+      .catch(error => { throw error}); 
+
   }
 
   handleChange = name => event => {
@@ -78,22 +76,20 @@ class IncidentRegistrationPage extends React.Component {
   }
   render() {
     const { classes, ...rest } = this.props;
+
+    const alertCount =  this.state.notificationList.filter(value => value.type === 'alert').length;
+    const updateCount = this.state.notificationList.filter(value => value.type === 'update').length;
     return (
       <div>
         <Header
           absolute
           color="dark"
           brand="ESIM"
-          rightLinks={<HeaderLinks endusermenu="true"/>}
+          rightLinks={<HeaderLinks endusermenu="true" alertCount={alertCount} updateCount={updateCount} sessionName={sessionStorage.getItem('username')}/>}
           {...rest}
         />
         <div
           className={classes.pageHeader}
-          style={{
-            // backgroundImage: "url(" + image + ")",
-            // backgroundSize: "cover",
-            // backgroundPosition: "top center"
-          }}
         >
           <div className={classes.container}>
               <Paper className={classes.root} elevation={1}>

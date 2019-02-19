@@ -2,6 +2,8 @@ import React from "react";
 import axios from 'axios';
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
+import Snackbar from '@material-ui/core/Snackbar';
+import { createBrowserHistory } from 'history';
 
 // @material-ui/icons
 
@@ -15,6 +17,7 @@ import workStyle from "assets/jss/material-kit-react/views/landingPageSections/w
 import { CssBaseline } from "@material-ui/core";
 
 let _userUrl ='http://localhost:3000/profile/'
+const history = createBrowserHistory({forceRefresh:true});
 
 class ProfileForm extends React.Component {
    constructor (props) {
@@ -25,11 +28,20 @@ class ProfileForm extends React.Component {
         lastName:'',
         location:'',
         mobile:'',
-        dob:''
+        dob:'',
+        open:false
        }
        this.handleChange = this.handleChange.bind(this);
        this.handleSubmit = this.handleSubmit.bind(this);
    }
+   handleSnkClick = () => {
+    this.setState({ open: true});
+  };
+
+  handleSnkClose = () => {
+    this.setState({ open: false });
+    //history.goBack();
+  };
 
    handleChange = name => event => {
     this.setState({
@@ -39,21 +51,27 @@ class ProfileForm extends React.Component {
 
   handleSubmit =(event) => {
     event.preventDefault();
-    axios.put(_userUrl + 'sahin.choudhury@outlook.com', {
+    axios.put(_userUrl + sessionStorage.getItem('username'), {
       firstName:this.state.firstName,
       lastName:this.state.lastName,
       location:this.state.location,
       mobile:this.state.mobile,
       dob: this.state.dob
     })
-    .then(response =>  {console.log(response);
+    .then(response =>  {
+      console.log(response);
+      if( response.data.success === true) {
+        this.handleSnkClick();
+        console.log("inside");
+
+      }
     })
     .catch(error => { throw error});
 }
 
 
   componentDidMount = () => {
-        axios.get(_userUrl + 'sahin.choudhury@outlook.com')
+        axios.get(_userUrl + sessionStorage.getItem('username'))
         .then( response => {
             console.log(response)
             this.setState({
@@ -185,6 +203,14 @@ class ProfileForm extends React.Component {
                 </GridContainer>
               </GridContainer>
             </form>
+            <Snackbar
+          open={this.state.open}
+          onClose={this.handleSnkClose}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">Sucessfully Updated</span>}
+        />
           </GridItem>
         </GridContainer>
       </div>
