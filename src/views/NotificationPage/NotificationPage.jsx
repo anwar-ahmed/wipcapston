@@ -22,7 +22,11 @@ import Button from "components/CustomButtons/Button.jsx";
 import NotificationCard from "./NotificationCard"
 import javascriptStyles from "assets/jss/material-kit-react/views/componentsSections/javascriptStyles.jsx";
 
-var _notificationUrl = 'http://localhost:3000/notification'
+ var _notificationUrl = 'http://localhost:3000/notification/'
+
+//var _notificationUrl = 'https://backendeim.herokuapp.com:3000/notification/'
+
+
 
 const history = createBrowserHistory({forceRefresh:true});
 
@@ -40,7 +44,21 @@ class NotificationPage extends React.Component {
       notificationList:[]
     };
   }
-
+  
+  handleDeleteNotification = (_id) => {
+    axios.delete(_notificationUrl + _id)
+    .then( response => { 
+      axios.get(_notificationUrl)
+      .then( response => {
+          this.setState({
+                  notificationList:response.data.data      
+          })
+      }
+      )
+      .catch(error => { throw error});
+    })
+    .catch(error => { throw error});
+  }
 
   handleOpen() {
     this.setState({
@@ -61,8 +79,6 @@ class NotificationPage extends React.Component {
         this.setState({
                 notificationList:response.data.data      
         })
-
-        console.log(this.state.Users);
     }
     )
     .catch(error => { throw error});
@@ -72,8 +88,8 @@ class NotificationPage extends React.Component {
 
    const { classes } = this.props;
 
-    let renderAllNotification = this.state.notificationList.filter(value => value.type === this.props.match.params.type).map((_notification, index) => {
-      return < NotificationCard key={index} notification={_notification} />;
+    let renderAllNotification = this.state.notificationList.filter(value => value.emailId === sessionStorage.getItem('username')).map((_notification, index) => {
+      return < NotificationCard key={index} notification={_notification} onClick={this.handleDeleteNotification}/>;
     })
     return (
       <div className={classes.section}>

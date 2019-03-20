@@ -15,6 +15,7 @@ import GridItem from "components/Grid/GridItem.jsx";
 import HeaderLinks from "components/Header/HeaderLinks.jsx";
 import NavPills from "components/NavPills/NavPills.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
+import Snackbar from '@material-ui/core/Snackbar';
 import { createBrowserHistory } from 'history';
 
 
@@ -35,9 +36,19 @@ class AdminPage extends React.Component {
       img:'',
       email:'',
       number:'',
-      twitter:''
+      twitter:'',
+      open:false
     }
   }
+
+  handleSnkClick = () => {
+    this.setState({ open: true});
+  };
+
+  handleSnkClose = () => {
+    this.setState({ open: false });
+  };
+
   handleChange = name => event => {
     this.setState({
       [name]: event.target.value,
@@ -56,7 +67,10 @@ class AdminPage extends React.Component {
     axios.post(_nonsosUrl, {
       name:this.state.nonsosname,
     })
-    .then(function (response) {
+    .then( response => {
+      if( response.data.success === true) {
+        this.handleSnkClick();
+}
     })
     .catch(function (error) {
     });
@@ -71,7 +85,10 @@ class AdminPage extends React.Component {
       number:this.state.number,
       twitter:this.state.twitter
     })
-    .then(function (response) {
+    .then(response => {
+      if( response.data.success === true) {
+        this.handleSnkClick();
+      }
     })
     .catch(function (error) {
     });
@@ -84,7 +101,7 @@ class AdminPage extends React.Component {
           absolute
           color="dark"
           brand="EISM"
-          rightLinks={<HeaderLinks />}
+          rightLinks={<HeaderLinks adminusermenu="true" sessionName={sessionStorage.getItem('username')}/>}
           fixed
           {...rest}
         />
@@ -222,12 +239,22 @@ class AdminPage extends React.Component {
                       }
                     ]}
                   />
+
                 </GridItem>
               </GridContainer>
             </div>
           </div>
         </div>
+
         <Footer  />
+        <Snackbar
+          open={this.state.open}
+          onClose={this.handleSnkClose}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">Sucessfully Created</span>}
+        />
       </div>
     );
   }

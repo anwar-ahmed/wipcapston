@@ -19,8 +19,9 @@ import notificationCardStyle from "assets/jss/material-kit-react/views/notificat
 
 
 class NotificationCard extends React.Component {
-  render() {
 
+  render() {
+    
     const { classes } = this.props;
     return (
 
@@ -37,7 +38,7 @@ class NotificationCard extends React.Component {
                         key="close"
                         aria-label="Close"
                         color="inherit"
-                        // onClick={() => this.handleClose()}
+                        onClick={() =>this.props.onClick(this.props.notification._id)}
                       >
                         <Close className={classes.modalClose} />
                       </IconButton>

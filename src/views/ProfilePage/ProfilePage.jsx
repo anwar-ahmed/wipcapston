@@ -78,7 +78,7 @@ class IncidentRegistrationPage extends React.Component {
     const { classes, ...rest } = this.props;
 
     const alertCount =  this.state.notificationList.filter(value => value.type === 'alert').length;
-    const updateCount = this.state.notificationList.filter(value => value.type === 'update').length;
+    const updateCount = this.state.notificationList.filter(value => value.emailId === sessionStorage.getItem('username')).length;
     return (
       <div>
         <Header

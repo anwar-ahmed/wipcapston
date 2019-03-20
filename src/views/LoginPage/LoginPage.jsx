@@ -105,7 +105,7 @@ class LoginPage extends React.Component {
                         <Button
                           justIcon
                           href="http://localhost:3000/users/auth/facebook"
-                          target="_blank"
+                          target="_self"
                           color="transparent"   
                           // onClick={this.handleOauth}
                         >

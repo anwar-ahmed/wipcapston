@@ -77,19 +77,15 @@ class AddIncidentForm extends React.Component {
     event.preventDefault();
     axios.post(_incidentUrl, {
       requestedby:this.state.firstName + ' ' + this.state.lastName ,
-      emailId:this.state.location,
+      emailId:this.state.emailId,
       type: this.state.incidentType,
       location:this.state.location,
       opened: this.state.opened,
       description: this.state.description
     })
     .then(response =>  {
-
-      console.log(response.data.success);
       if( response.data.success === true) {
         this.handleSnkClick();
-        console.log("inside");
-
       }
     })
     .catch(error => { throw error});

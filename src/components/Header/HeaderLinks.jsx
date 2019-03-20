@@ -2,6 +2,7 @@
 import React from "react";
 // react components for routing our app without refresh
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -24,8 +25,20 @@ import GridItem from "components/Grid/GridItem.jsx";
 
 import headerLinksStyle from "assets/jss/material-kit-react/components/headerLinksStyle.jsx";
 
+var _userUrl = "http://localhost:3000/users/";
+
+function sessionlogout(){
+  axios.get(_userUrl + "logout")
+  .then( response => { console.log("logout")  })
+  .catch(error => { throw error});
+
+  sessionStorage.clear();
+
+
+}
+
 function HeaderLinks({ ...props }) {
-  const { classes,endusermenu,controlusermenu,loginpage,loginasadminpage,alertCount,updateCount,sessionName } = props;
+  const { classes,endusermenu,controlusermenu,adminusermenu,loginpage,loginasadminpage,alertCount,updateCount,sessionName } = props;
 
 
   return (
@@ -51,7 +64,7 @@ function HeaderLinks({ ...props }) {
                        <Link to="/profile-page" className={classes.dropdownLink}>
                                   Profile
                                 </Link>,
-                                          <Link to={"/adminlogin-page"}  className={classes.dropdownLink}>
+                                          <Link to={"/adminlogin-page"}  className={classes.dropdownLink} onClick={() => sessionlogout()} > 
                                             Signout
                                           </Link>
           
@@ -100,7 +113,7 @@ function HeaderLinks({ ...props }) {
                                                                                                             <Link to="/actionitems-page" className={classes.dropdownLink}>
                                                                                                             Send Security Alert
                                                                                                           </Link>,
-                                          <Link to={"/login-page"}  className={classes.dropdownLink}>
+                                          <Link to={"/login-page"}  className={classes.dropdownLink} onClick={() => sessionlogout()}>
                                             Signout
                                           </Link>
           
@@ -170,6 +183,20 @@ function HeaderLinks({ ...props }) {
                        </Button>
                        </Link>
                      </ListItem> 
+           </div>  : ''}
+           {adminusermenu ? 
+             <div>
+           <ListItem className={classes.listItem}>
+           <Link to={"/adminlogin-page"}  className={classes.link} onClick={() => sessionlogout()}>
+             <Button
+               href="#"
+               color="transparent"
+               target="_blank"
+               className={classes.navLink}
+             > Signout
+             </Button>
+             </Link>
+           </ListItem>
            </div>  : ''}
        </List>
   );

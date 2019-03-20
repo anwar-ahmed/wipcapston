@@ -20,12 +20,13 @@ import Close from "@material-ui/icons/Close";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
 import Button from "components/CustomButtons/Button.jsx";
+import { createBrowserHistory } from 'history';
 import javascriptStyles from "assets/jss/material-kit-react/views/componentsSections/javascriptStyles.jsx";
 
 var _incidentUrl = 'http://localhost:3000/incident/detail/'
 
 var _notificationUrl = 'http://localhost:3000/notification'
-
+const history = createBrowserHistory({forceRefresh:true});
 function Transition(props) {
   return <Slide direction="down" {...props} />;
 }
@@ -61,6 +62,7 @@ class IncidentDetail extends React.Component {
     this.setState({
         open:false
     });
+    history.push('/actionitems-page')
   }
   handleSubmit() {
     axios.post(_incidentUrl + this.props.match.params.id , {
@@ -70,15 +72,32 @@ class IncidentDetail extends React.Component {
     })
     .catch(error => { throw error});
 
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; 
+    var yyyy = today.getFullYear();
+
+    if(dd<10) {
+      dd = '0'+dd
+    } 
+
+    if(mm<10) {
+    mm = '0'+mm
+    } 
+
+    today = mm + '/' + dd + '/' + yyyy;
+
     axios.post(_notificationUrl , {
       type:"update",
-      emailId:"sahin.choudhury@outlook.com",
+      emailId:this.state.emailId,
       incidentId:this.props.match.params.id,
-      opened:"2018-02-20",
+      opened:today,
       message: "status changed to :" + this.state.status
 
+
     })
-    .then(response =>  {console.log(response);
+    .then(response =>  {
+      history.push('/actionitems-page')
     })
     .catch(error => { throw error});
 
@@ -118,8 +137,8 @@ class IncidentDetail extends React.Component {
         label: 'Not Valid Incident',
       },
       {
-        value: 'Delegatred',
-        label: 'Delegatred',
+        value: 'Delegated',
+        label: 'Delegated',
       },
       {
         value: 'Open',

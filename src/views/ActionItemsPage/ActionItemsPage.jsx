@@ -11,13 +11,20 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Header from "components/Header/Header.jsx";
 import HeaderLinks from "components/Header/HeaderLinks.jsx";
 import Footer from "components/Footer/Footer.jsx";
+import { createBrowserHistory } from 'history';
 
 import ListIncidents from "./ListIncidents"
 
 import incidentRegistrationPageStyle from "assets/jss/material-kit-react/views/incidentRegistrationPageStyle.jsx";
 
-
+const history = createBrowserHistory({forceRefresh:true});
 class ActionItemsPage extends React.Component {
+
+  componentWillMount() {
+    if(sessionStorage.getItem('username') != 'securitycontrol@esim.com') {
+      history.push('/login-page')
+    }
+  }
 
   render() {
     const { classes, ...rest } = this.props;
