@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import envVar from "../../config.js"
 // react plugin for creating date-time-picker
 
 // @material-ui/core components
@@ -23,9 +24,10 @@ import Button from "components/CustomButtons/Button.jsx";
 import { createBrowserHistory } from 'history';
 import javascriptStyles from "assets/jss/material-kit-react/views/componentsSections/javascriptStyles.jsx";
 
-var _incidentUrl = 'http://localhost:3000/incident/detail/'
+var _incidentUrl = envVar.API_URL +  '/incident/detail/'
 
-var _notificationUrl = 'http://localhost:3000/notification'
+var _notificationUrl = envVar.API_URL +  '/notification'
+
 const history = createBrowserHistory({forceRefresh:true});
 function Transition(props) {
   return <Slide direction="down" {...props} />;

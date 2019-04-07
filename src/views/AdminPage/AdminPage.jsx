@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import envVar from "../../config.js"
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // @material-ui/core components
@@ -23,8 +24,8 @@ import { createBrowserHistory } from 'history';
 
 import profilePageStyle from "assets/jss/material-kit-react/views/profilePage.jsx";
 const history = createBrowserHistory({forceRefresh:true});
-var _nonsosUrl = "http://localhost:3000/nonsosservices/";
-var _sosUrl = "http://localhost:3000/sosservices/";
+var _nonsosUrl =  envVar.API_URL + "/nonsosservices/";
+var _sosUrl = envVar.API_URL + "/sosservices/";
 
 class AdminPage extends React.Component {
   constructor(props) {

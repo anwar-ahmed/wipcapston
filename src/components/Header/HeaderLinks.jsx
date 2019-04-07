@@ -4,6 +4,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
+import envVar from "../../config.js"
+
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import List from "@material-ui/core/List";
@@ -25,7 +27,7 @@ import GridItem from "components/Grid/GridItem.jsx";
 
 import headerLinksStyle from "assets/jss/material-kit-react/components/headerLinksStyle.jsx";
 
-var _userUrl = "http://localhost:3000/users/";
+var _userUrl = envVar.API_URL + "/users/";
 
 function sessionlogout(){
   axios.get(_userUrl + "logout")

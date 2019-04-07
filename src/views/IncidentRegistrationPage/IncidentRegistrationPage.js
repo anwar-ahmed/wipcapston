@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import envVar from "../../config.js"
 // @material-ui/core components
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
@@ -19,7 +20,7 @@ import AddIncidentForm from "./AddIncidentForm"
 
 import incidentRegistrationPageStyle from "assets/jss/material-kit-react/views/incidentRegistrationPageStyle.jsx";
 
-var _notificationUrl = 'http://localhost:3000/notification'
+var _notificationUrl = envVar.API_URL + '/notification'
 
 
 class IncidentRegistrationPage extends React.Component {

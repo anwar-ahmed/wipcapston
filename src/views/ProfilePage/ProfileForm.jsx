@@ -1,5 +1,6 @@
 import React from "react";
 import axios from 'axios';
+import envVar from "../../config.js"
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import Snackbar from '@material-ui/core/Snackbar';
@@ -16,7 +17,7 @@ import Button from "components/CustomButtons/Button.jsx";
 import workStyle from "assets/jss/material-kit-react/views/landingPageSections/workStyle.jsx";
 import { CssBaseline } from "@material-ui/core";
 
-let _userUrl ='http://localhost:3000/profile/'
+let _userUrl = envVar.API_URL + '/profile/'
 const history = createBrowserHistory({forceRefresh:true});
 
 class ProfileForm extends React.Component {

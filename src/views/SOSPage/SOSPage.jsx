@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import envVar from "../../config.js"
 // @material-ui/core components
 import { withStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
@@ -29,7 +30,7 @@ import image3 from "assets/img/ambulance.jpg";
 import image4 from "assets/img/police.jpg";
 
 import sospageStyle from "assets/jss/material-kit-react/views/sospageStyle.jsx";
-var _notificationUrl = 'http://localhost:3000/notification'
+var _notificationUrl = envVar.API_URL + '/notification'
 class SOSPage extends React.Component {
 
   constructor(props) {

@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import envVar from "../../config.js"
 // react plugin for creating date-time-picker
 
 // @material-ui/core components
@@ -22,7 +23,7 @@ import Button from "components/CustomButtons/Button.jsx";
 import NotificationCard from "./NotificationCard"
 import javascriptStyles from "assets/jss/material-kit-react/views/componentsSections/javascriptStyles.jsx";
 
- var _notificationUrl = 'http://localhost:3000/notification/'
+ var _notificationUrl =  envVar.API_URL + '/notification/'
 
 //var _notificationUrl = 'https://backendeim.herokuapp.com:3000/notification/'
 

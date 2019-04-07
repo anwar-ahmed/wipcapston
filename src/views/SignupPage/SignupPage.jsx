@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
 import { createBrowserHistory } from 'history';
+import envVar from "../../config.js"
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -35,8 +36,11 @@ import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
 
 const history = createBrowserHistory({forceRefresh:true});
 
-var _userUrl = "http://localhost:3000/users/";
+// var _userUrl = "http://localhost:3000/users/";
 
+var _userUrl = envVar.API_URL + "/users/"
+
+console.log(_userUrl)
 // var _userUrl = "https://backendeim.herokuapp.com/users/";
 
 class SignupPage extends React.Component {

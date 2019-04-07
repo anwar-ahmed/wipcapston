@@ -1,4 +1,5 @@
 import React from "react";
+import envVar from "../../config.js"
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 
@@ -25,7 +26,7 @@ import workStyle from "assets/jss/material-kit-react/views/landingPageSections/w
 import Incident from "./Incident"
 import Axios from "axios";
 
-var _incidentUrl = 'http://localhost:3000/incident/'
+var _incidentUrl = envVar.API_URL + '/incident/'
 
 
 

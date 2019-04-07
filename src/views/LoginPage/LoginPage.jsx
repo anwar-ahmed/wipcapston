@@ -7,6 +7,8 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Icon from "@material-ui/core/Icon";
 
+import envVar from "../../config.js"
+
 // @material-ui/icons
 import Email from "@material-ui/icons/Email";
 import People from "@material-ui/icons/People";
@@ -26,7 +28,9 @@ import CustomInput from "components/CustomInput/CustomInput.jsx";
 import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
 
 
-var _userUrl = "http://localhost:3000/users/";
+// var _userUrl = "http://localhost:3000/users/";
+
+var _userUrl = envVar.API_URL + "/users/"
 
 const history = createBrowserHistory({forceRefresh:true});
 
@@ -104,7 +108,7 @@ class LoginPage extends React.Component {
                       <div className={classes.socialLine}>
                         <Button
                           justIcon
-                          href="http://localhost:3000/users/auth/facebook"
+                          href= "http://localhost:3000/users/auth/facebook"
                           target="_self"
                           color="transparent"   
                           // onClick={this.handleOauth}

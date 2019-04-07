@@ -6,6 +6,7 @@ import { createBrowserHistory } from 'history';
 import withStyles from "@material-ui/core/styles/withStyles";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Icon from "@material-ui/core/Icon";
+import envVar from "../../config.js"
 
 // @material-ui/icons
 import Email from "@material-ui/icons/Email";
@@ -27,7 +28,9 @@ import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
 
 import image from "assets/img/bg8.jpg";
 
-var _userUrl = "http://localhost:3000/users/";
+// var _userUrl = "http://localhost:3000/users/";
+
+var _userUrl = envVar.API_URL + "/users/"
 
 const history = createBrowserHistory({forceRefresh:true});
 

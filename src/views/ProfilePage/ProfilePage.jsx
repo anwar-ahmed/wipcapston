@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import envVar from "../../config.js"
 // @material-ui/core components
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
@@ -20,8 +21,8 @@ import ProfileForm from "./ProfileForm"
  import incidentRegistrationPageStyle from "assets/jss/material-kit-react/views/incidentRegistrationPageStyle.jsx";
 import image from "assets/img/bg8.jpg";
 
-var _userUrl = "http://localhost:3000/users/";
-var _notificationUrl = 'http://localhost:3000/notification'
+var _userUrl = envVar.API_URL +  "/users/";
+var _notificationUrl = envVar.API_URL + '/notification'
 
 class IncidentRegistrationPage extends React.Component {
   constructor(props) {

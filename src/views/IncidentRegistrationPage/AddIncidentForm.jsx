@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import envVar from "../../config.js"
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 
@@ -19,8 +20,8 @@ import { createBrowserHistory } from 'history';
 
 import workStyle from "assets/jss/material-kit-react/views/landingPageSections/workStyle.jsx";
 
-var _profileUrl ='http://localhost:3000/profile/'
-var _incidentUrl = 'http://localhost:3000/incident'
+var _profileUrl = envVar.API_URL + '/profile/'
+var _incidentUrl =  envVar.API_URL + '/incident'
 const history = createBrowserHistory({forceRefresh:true});
 
 class AddIncidentForm extends React.Component {
