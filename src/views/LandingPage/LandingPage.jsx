@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import envVar from "../../config.js"
 // nodejs library that concatenates classes
 import classNames from "classnames";
 // @material-ui/core components
@@ -18,7 +19,7 @@ import ActionItemsPage from "views/ActionItemsPage/ActionItemsPage";
 //import landingPageStyle from "assets/jss/material-kit-react/views/landingPage.jsx";
 import landingPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
 
-var _notificationUrl = 'http://localhost:3000/notification'
+var _notificationUrl =  envVar.API_URL + '/notification'
 
 const history = createBrowserHistory({forceRefresh:true});
 
